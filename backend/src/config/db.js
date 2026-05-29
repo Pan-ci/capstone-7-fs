@@ -23,6 +23,9 @@ const pool = new Pool({
     database: process.env.PGDATABASE || "capstone_db",
     user: process.env.PGUSER || "postgres",
     password: process.env.PGPASSWORD || "",
+    ssl: {
+        rejectUnauthorized: false
+    }
 });
 
 pool.on("connect", () => {
