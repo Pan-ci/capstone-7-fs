@@ -1,6 +1,6 @@
 import axios from "axios";
 import { logger } from "../utils/logger.js";
-import { AppError } from "../utils/appError.js";
+import { AppError } from "../utils/AppError.js";
 
 const FASTAPI_URL = process.env.FASTAPI_URL;
 

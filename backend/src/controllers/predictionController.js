@@ -3,7 +3,7 @@
 import { runPrediction, checkModelHealth } from "../services/predictionService.js";
 import { savePrediction } from "../services/predictionHistoryService.js";
 import {logger} from "../utils/logger.js";
-import { AppError } from "../utils/appError.js";
+import { AppError } from "../utils/AppError.js";
 
 /**
  * POST /api/predictions

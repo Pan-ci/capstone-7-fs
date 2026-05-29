@@ -4,7 +4,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { logger } from "../utils/logger.js";
-import { AppError } from "../utils/appError.js";
+import { AppError } from "../utils/AppError.js";
 
 import { runPrediction } from "../services/predictionService.js";
 import {

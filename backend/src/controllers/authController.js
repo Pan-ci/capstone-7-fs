@@ -3,7 +3,7 @@
 import jwt from "jsonwebtoken";
 import { registerUser, loginUser } from "../services/authService.js";
 import { logger } from "../utils/logger.js";
-import { AppError } from "../utils/appError.js";
+import { AppError } from "../utils/AppError.js";
 
 const JWT_SECRET = process.env.JWT_SECRET;
 

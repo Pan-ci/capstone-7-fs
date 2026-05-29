@@ -7,7 +7,7 @@ import {
     deleteAllPredictions,
 } from "../services/predictionHistoryService.js";
 import { logger } from "../utils/logger.js";
-import { AppError } from "../utils/appError.js";
+import { AppError } from "../utils/AppError.js";
 
 /**
  * GET /api/predictions
