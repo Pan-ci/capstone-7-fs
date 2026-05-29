@@ -5,15 +5,6 @@ import pg from "pg";
 import { logger } from "../utils/logger.js";
 
 const isProd = process.env.NODE_ENV === "production";
-const requiredVars = ["DATABASE_URL"];
-
-if (isProd) {
-    requiredVars.forEach((name) => {
-        if (!process.env[name]) {
-            throw new Error(`${name} must be set in production environment`);
-        }
-    });
-}
 
 const { Pool } = pg;
 

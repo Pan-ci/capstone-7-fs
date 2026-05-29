@@ -4,11 +4,10 @@ import { AppError } from "../utils/AppError.js";
 
 const FASTAPI_URL = process.env.FASTAPI_URL;
 
-if (process.env.NODE_ENV === "production" && !FASTAPI_URL) {
-    throw new Error("FASTAPI_URL must be set in production environment");
-}
-
 export const predictBatch = async (payload, requestId) => {
+    if (!FASTAPI_URL) {
+        throw new AppError("FASTAPI_URL is not configured on the server", 500, "FASTAPI_NOT_CONFIGURED");
+    }
     try {
         logger.info("[FASTAPI]", requestId, "sending request");
 

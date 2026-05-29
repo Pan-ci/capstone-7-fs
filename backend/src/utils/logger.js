@@ -15,12 +15,10 @@ const formatMessage = (level, scope, requestId, ...args) => {
 
 export const logger = {
     info: (scope, requestId, ...args) => {
-        if (isProd) return;
         console.log(...formatMessage("[INFO]", scope, requestId, ...args));
     },
 
     warn: (scope, requestId, ...args) => {
-        if (isProd) return;
         console.warn(...formatMessage("[WARN]", scope, requestId, ...args));
     },
 

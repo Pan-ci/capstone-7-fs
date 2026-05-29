@@ -5,10 +5,6 @@ import { logger } from "../utils/logger.js";
 
 const FASTAPI_URL = process.env.FASTAPI_URL || "http://127.0.0.1:8000";
 
-if (process.env.NODE_ENV === "production" && !process.env.FASTAPI_URL) {
-    throw new Error("FASTAPI_URL must be set in production environment");
-}
-
 /**
  * Kirim request ke FastAPI untuk prediksi
  * @param {object} data — { summary, experience_desc, years_experience }

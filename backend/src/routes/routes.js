@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import { predictJob, getModelHealth } from "../controllers/predictionController.js";
+import { readiness } from "../controllers/healthController.js";
 import {
     getAll,
     getById,
@@ -37,6 +38,9 @@ router.get("/health", (req, res) => {
 
 // GET /api/model/health — cek status model AI (FastAPI)
 router.get("/model/health", getModelHealth);
+
+// GET /api/ready — readiness check (DB + model)
+router.get("/ready", readiness);
 
 // ===== Auth =====
 // POST /api/auth/register

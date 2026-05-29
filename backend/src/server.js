@@ -20,6 +20,18 @@ if (isProd && !FRONTEND_URL) {
     process.exit(1);
 }
 
+// Validate critical environment variables early (fail fast with clear message)
+if (isProd) {
+    const missing = [];
+    if (!process.env.DATABASE_URL) missing.push("DATABASE_URL");
+    if (!process.env.JWT_SECRET) missing.push("JWT_SECRET");
+
+    if (missing.length > 0) {
+        logger.error(null, `Missing required env vars in production: ${missing.join(", ")}`);
+        process.exit(1);
+    }
+}
+
 app.use(cors({
     origin: isProd ? FRONTEND_URL : true,
     credentials: !isProd,
@@ -35,7 +47,7 @@ const PORT = process.env.PORT || 5000;
 const CLEANUP_INTERVAL_MS =
     Number(process.env.BATCH_CLEANUP_INTERVAL_MS) || 300000;
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
     logger.info(null, `Server running on port ${PORT}`);
 
     purgeExpiredBatchJobs();

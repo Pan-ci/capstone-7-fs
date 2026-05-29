@@ -5,13 +5,7 @@ import { registerUser, loginUser } from "../services/authService.js";
 import { logger } from "../utils/logger.js";
 import { AppError } from "../utils/AppError.js";
 
-const JWT_SECRET = process.env.JWT_SECRET;
-
-if (process.env.NODE_ENV === "production" && !JWT_SECRET) {
-    throw new Error("JWT_SECRET must be set in production environment");
-}
-
-const SECRET = JWT_SECRET || "dev-secret";
+const SECRET = process.env.JWT_SECRET || "dev-secret";
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || "7d";
 
 /**

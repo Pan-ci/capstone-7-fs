@@ -3,12 +3,6 @@
 import jwt from "jsonwebtoken";
 
 const JWT_SECRET = process.env.JWT_SECRET;
-
-if (process.env.NODE_ENV === "production" && !JWT_SECRET) {
-    // Fail fast in production if secret is missing
-    throw new Error("JWT_SECRET must be set in production environment");
-}
-
 const SECRET = JWT_SECRET || "dev-secret";
 
 /**
