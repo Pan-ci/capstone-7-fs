@@ -1,0 +1,222 @@
+[
+  {
+    "id": "batch_1780028585215_u8hyb7",
+    "fileName": "test.xlsx",
+    "status": "completed",
+    "createdAt": "2026-05-29T04:23:05.215Z",
+    "expiresAt": "2026-05-29T05:23:05.215Z",
+    "totalRows": 3,
+    "processedRows": 3,
+    "results": [
+      {
+        "row": 1,
+        "input": {
+          "text": "\"Developing REST APIs with FastAPI\"\n\n\"Python developer with FastAPI\"",
+          "num": 3
+        },
+        "experienceDesc": "\"Developing REST APIs with FastAPI\"",
+        "cvSummary": "\"Python developer with FastAPI\"",
+        "predicted_job": "software_engineer",
+        "confidence": 0.4297,
+        "low_confidence": true,
+        "prediction_gap": 0.2026,
+        "top_predictions": [
+          {
+            "label": "software_engineer",
+            "score": 0.4297
+          },
+          {
+            "label": "data_analyst",
+            "score": 0.2271
+          },
+          {
+            "label": "teacher",
+            "score": 0.1799
+          }
+        ],
+        "probabilities": {
+          "software_engineer": 0.4297,
+          "data_analyst": 0.2271,
+          "teacher": 0.1799,
+          "admin": 0.1633
+        }
+      },
+      {
+        "row": 2,
+        "input": {
+          "text": "\"Working with natural language processing models\"\n\n\"Machine learning engineer with NLP\"",
+          "num": 5
+        },
+        "experienceDesc": "\"Working with natural language processing models\"",
+        "cvSummary": "\"Machine learning engineer with NLP\"",
+        "predicted_job": "data_analyst",
+        "confidence": 0.6125,
+        "low_confidence": false,
+        "prediction_gap": 0.4493,
+        "top_predictions": [
+          {
+            "label": "data_analyst",
+            "score": 0.6125
+          },
+          {
+            "label": "teacher",
+            "score": 0.1632
+          },
+          {
+            "label": "software_engineer",
+            "score": 0.1383
+          }
+        ],
+        "probabilities": {
+          "data_analyst": 0.6125,
+          "teacher": 0.1632,
+          "software_engineer": 0.1383,
+          "admin": 0.086
+        }
+      },
+      {
+        "row": 3,
+        "input": {
+          "text": "\"Building user interfaces with React\"\n\n\"Frontend React developer\"",
+          "num": 2
+        },
+        "experienceDesc": "\"Building user interfaces with React\"",
+        "cvSummary": "\"Frontend React developer\"",
+        "predicted_job": "software_engineer",
+        "confidence": 0.4241,
+        "low_confidence": true,
+        "prediction_gap": 0.1973,
+        "top_predictions": [
+          {
+            "label": "software_engineer",
+            "score": 0.4241
+          },
+          {
+            "label": "data_analyst",
+            "score": 0.2268
+          },
+          {
+            "label": "teacher",
+            "score": 0.1823
+          }
+        ],
+        "probabilities": {
+          "software_engineer": 0.4241,
+          "data_analyst": 0.2268,
+          "teacher": 0.1823,
+          "admin": 0.1668
+        }
+      }
+    ]
+  },
+  {
+    "id": "batch_1780028218179_fqd8ve",
+    "fileName": "test.csv",
+    "status": "completed",
+    "createdAt": "2026-05-29T04:16:58.179Z",
+    "expiresAt": "2026-05-29T05:16:58.179Z",
+    "totalRows": 3,
+    "processedRows": 3,
+    "results": [
+      {
+        "row": 1,
+        "input": {
+          "text": "Developing REST APIs with FastAPI\n\nPython developer with FastAPI",
+          "num": 3
+        },
+        "experienceDesc": "Developing REST APIs with FastAPI",
+        "cvSummary": "Python developer with FastAPI",
+        "predicted_job": "software_engineer",
+        "confidence": 0.4297,
+        "low_confidence": true,
+        "prediction_gap": 0.2026,
+        "top_predictions": [
+          {
+            "label": "software_engineer",
+            "score": 0.4297
+          },
+          {
+            "label": "data_analyst",
+            "score": 0.2271
+          },
+          {
+            "label": "teacher",
+            "score": 0.1799
+          }
+        ],
+        "probabilities": {
+          "software_engineer": 0.4297,
+          "data_analyst": 0.2271,
+          "teacher": 0.1799,
+          "admin": 0.1633
+        }
+      },
+      {
+        "row": 2,
+        "input": {
+          "text": "Working with natural language processing models\n\nMachine learning engineer with NLP",
+          "num": 5
+        },
+        "experienceDesc": "Working with natural language processing models",
+        "cvSummary": "Machine learning engineer with NLP",
+        "predicted_job": "data_analyst",
+        "confidence": 0.6125,
+        "low_confidence": false,
+        "prediction_gap": 0.4493,
+        "top_predictions": [
+          {
+            "label": "data_analyst",
+            "score": 0.6125
+          },
+          {
+            "label": "teacher",
+            "score": 0.1632
+          },
+          {
+            "label": "software_engineer",
+            "score": 0.1383
+          }
+        ],
+        "probabilities": {
+          "data_analyst": 0.6125,
+          "teacher": 0.1632,
+          "software_engineer": 0.1383,
+          "admin": 0.086
+        }
+      },
+      {
+        "row": 3,
+        "input": {
+          "text": "Building user interfaces with React\n\nFrontend React developer",
+          "num": 2
+        },
+        "experienceDesc": "Building user interfaces with React",
+        "cvSummary": "Frontend React developer",
+        "predicted_job": "software_engineer",
+        "confidence": 0.4241,
+        "low_confidence": true,
+        "prediction_gap": 0.1973,
+        "top_predictions": [
+          {
+            "label": "software_engineer",
+            "score": 0.4241
+          },
+          {
+            "label": "data_analyst",
+            "score": 0.2268
+          },
+          {
+            "label": "teacher",
+            "score": 0.1823
+          }
+        ],
+        "probabilities": {
+          "software_engineer": 0.4241,
+          "data_analyst": 0.2268,
+          "teacher": 0.1823,
+          "admin": 0.1668
+        }
+      }
+    ]
+  }
+]
