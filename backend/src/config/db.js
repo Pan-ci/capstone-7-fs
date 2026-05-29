@@ -23,6 +23,16 @@ if (useSsl) {
     poolConfig.ssl = { rejectUnauthorized: false };
 }
 
+// Log which config is being used (avoid printing secrets)
+if (process.env.DATABASE_URL) {
+    logger.info("DB", null, "Using DATABASE_URL for PostgreSQL connection");
+} else {
+    logger.info("DB", null, `Using direct PG config host=${poolConfig.host} port=${poolConfig.port} database=${poolConfig.database} user=${poolConfig.user}`);
+}
+if (useSsl) {
+    logger.info("DB", null, "DB SSL is enabled (rejectUnauthorized=false)");
+}
+
 const pool = new Pool(poolConfig);
 
 pool.on("connect", () => {

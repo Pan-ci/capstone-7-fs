@@ -6,6 +6,7 @@ const timeout = (ms) => new Promise((_, reject) => setTimeout(() => reject(new E
 
 export const readiness = async (req, res, next) => {
     const start = Date.now();
+    logger.info("Health", null, "Readiness check started");
     try {
         // quick DB check with short timeout
         await Promise.race([pool.query("SELECT 1"), timeout(2000)]);
@@ -13,6 +14,7 @@ export const readiness = async (req, res, next) => {
         // check model health but don't fail startup if not configured
         const model = await checkModelHealth();
 
+        logger.info("Health", null, "Readiness check successful", `duration=${Date.now() - start}ms`);
         res.json({
             status: "ready",
             db: "ok",

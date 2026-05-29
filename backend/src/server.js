@@ -7,6 +7,7 @@ import errorMiddleware from "./middlewares/errorMiddleware.js";
 import { purgeExpiredBatchJobs } from "./services/batchPredictionService.js";
 import { logger } from "./utils/logger.js";
 import { requestIdMiddleware } from "./middlewares/requestId.js";
+import { requestLogger } from "./middlewares/requestLogger.js";
 
 logger.info("Server starting...");
 
@@ -32,6 +33,14 @@ if (isProd) {
     }
 }
 
+    // Emit detailed env status (mask secrets)
+    logger.info("Server", null, "Env status:",
+        `DATABASE_URL=${process.env.DATABASE_URL ? 'set' : 'unset'}`,
+        `DB_SSL=${process.env.DB_SSL || 'false'}`,
+        `FASTAPI_URL=${process.env.FASTAPI_URL ? 'set' : 'unset'}`,
+        `JWT_SECRET=${process.env.JWT_SECRET ? 'set' : 'unset'}`
+    );
+
 app.use(cors({
     origin: isProd ? FRONTEND_URL : true,
     credentials: !isProd,
@@ -39,7 +48,9 @@ app.use(cors({
 app.use(express.json({ limit: "50kb" }));
 app.use(express.urlencoded({ extended: false, limit: "50kb" }));
 app.use(requestIdMiddleware);
+app.use(requestLogger);
 app.use("/api", routes);
+logger.info(null, "Routes mounted at /api");
 
 app.use(errorMiddleware);
 
