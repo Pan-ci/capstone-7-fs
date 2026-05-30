@@ -47,6 +47,8 @@ if (isProd) {
 app.use(cors({
     origin: isProd ? FRONTEND_URL : true,
     credentials: !isProd,
+    allowedHeaders: ["Content-Type", "Authorization"],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
 }));
 app.use(express.json({ limit: "50kb" }));
 app.use(express.urlencoded({ extended: false, limit: "50kb" }));

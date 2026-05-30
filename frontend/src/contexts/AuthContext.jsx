@@ -9,10 +9,12 @@ const applyAuthToken = (token) => {
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
         api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
         localStorage.setItem("token", token);
+        console.debug("[AuthContext] applyAuthToken", { hasToken: true });
     } else {
         delete axios.defaults.headers.common["Authorization"];
         delete api.defaults.headers.common["Authorization"];
         localStorage.removeItem("token");
+        console.debug("[AuthContext] applyAuthToken", { hasToken: false });
     }
 };
 

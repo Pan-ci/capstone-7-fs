@@ -30,19 +30,21 @@ api.interceptors.request.use((config) => {
     const token = localStorage.getItem('token');
     config.headers = config.headers || {};
 
-    if (DEBUG_API) {
-        console.debug('[API REQUEST]', {
-            method: config.method,
-            url: config.baseURL ? `${config.baseURL}${config.url}` : config.url,
-            headers: config.headers,
-            data: config.data,
-        });
-    }
-
     if (token) {
         config.headers.Authorization = `Bearer ${token}`;
     } else {
         delete config.headers.Authorization;
+    }
+
+    if (DEBUG_API) {
+        console.debug('[API REQUEST]', {
+            method: config.method,
+            url: config.baseURL ? `${config.baseURL}${config.url}` : config.url,
+            hasToken: Boolean(token),
+            authorization: config.headers.Authorization ? '[REDACTED]' : null,
+            headers: config.headers,
+            data: config.data,
+        });
     }
 
     return config;
