@@ -13,11 +13,10 @@ import {
     FaSun,
     FaGlobeAsia,
 } from 'react-icons/fa';
-import axios from 'axios';
+import api from '../config/api';
 import { useTheme } from '../contexts/ThemeContext';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useAuth } from '../contexts/AuthContext';
-import { apiUrl } from '../config/api';
 
 const Header = () => {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -32,8 +31,8 @@ const Header = () => {
     useEffect(() => {
         const checkHealth = async () => {
             try {
-                await axios.get(apiUrl('/api/health'), { timeout: 4000 });
-                try { await axios.get(apiUrl('/api/model/health'), { timeout: 4000 }); }
+                await api.get('/api/health', { timeout: 4000 });
+                try { await api.get('/api/model/health', { timeout: 4000 }); }
                 catch { /* silent */ }
             } catch { /* silent */ }
         };

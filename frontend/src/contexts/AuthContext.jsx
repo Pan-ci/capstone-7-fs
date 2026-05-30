@@ -1,17 +1,17 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
 import axios from "axios";
-import { API_BASE_URL } from "../config/api.js";
-
-const API_BASE = API_BASE_URL;
+import api from "../config/api.js";
 
 const AuthContext = createContext(null);
 
 const applyAuthToken = (token) => {
     if (token) {
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+        api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
         localStorage.setItem("token", token);
     } else {
         delete axios.defaults.headers.common["Authorization"];
+        delete api.defaults.headers.common["Authorization"];
         localStorage.removeItem("token");
     }
 };
@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }) => {
             return;
         }
         try {
-            const res = await axios.get(`${API_BASE}/api/auth/me`);
+            const res = await api.get('/api/auth/me');
             setUser(res.data.data);
         } catch {
             // Token tidak valid → logout
@@ -49,7 +49,7 @@ export const AuthProvider = ({ children }) => {
     }, [fetchMe]);
 
     const login = async (email, password) => {
-        const res = await axios.post(`${API_BASE}/api/auth/login`, { email, password });
+        const res = await api.post('/api/auth/login', { email, password });
         const { token: newToken, user: userData } = res.data.data;
         applyAuthToken(newToken);
         setToken(newToken);
@@ -58,7 +58,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     const register = async (name, email, password) => {
-        const res = await axios.post(`${API_BASE}/api/auth/register`, { name, email, password });
+        const res = await api.post('/api/auth/register', { name, email, password });
         const { token: newToken, user: userData } = res.data.data;
         applyAuthToken(newToken);
         setToken(newToken);

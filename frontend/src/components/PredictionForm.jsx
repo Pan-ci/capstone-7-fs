@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { FaSearch, FaSpinner, FaChartBar, FaBriefcase, FaFileAlt, FaUserTie, FaClipboardList } from 'react-icons/fa';
 import { useLanguage } from '../contexts/LanguageContext';
-import { apiUrl } from '../config/api';
+import api from '../config/api';
 
 const PredictionForm = () => {
     const [formData, setFormData] = useState({
@@ -47,7 +46,7 @@ const PredictionForm = () => {
                 years_experience: parseFloat(formData.years_experience) || 0,
             };
 
-            const res = await axios.post(apiUrl('/api/predictions'), dataToSubmit);
+            const res = await api.post('/api/predictions', dataToSubmit);
             if (res.data && res.data.data) {
                 setResult(res.data.data);
             } else {
