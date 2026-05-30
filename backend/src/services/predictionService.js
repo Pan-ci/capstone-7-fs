@@ -3,7 +3,17 @@
 
 import { logger } from "../utils/logger.js";
 
-const FASTAPI_URL = process.env.FASTAPI_URL || "http://127.0.0.1:8000";
+const FASTAPI_URL = process.env.FASTAPI_URL || (process.env.NODE_ENV !== "production" ? "http://127.0.0.1:8000" : null);
+
+const ensureFastApiUrl = () => {
+    if (!FASTAPI_URL) {
+        const err = new Error("FASTAPI_URL is not configured on the server");
+        err.code = "FASTAPI_NOT_CONFIGURED";
+        err.status = 500;
+        throw err;
+    }
+    return FASTAPI_URL;
+};
 
 /**
  * Kirim request ke FastAPI untuk prediksi
@@ -51,9 +61,10 @@ export const runPrediction = async (data) => {
     const years_experience = Number(data.years_experience) || 0;
 
     const requestId = getRequestId();
+    const endpoint = `${ensureFastApiUrl()}/predict`;
 
     log("INFO", "Sending prediction request", {
-        url: FASTAPI_URL,
+        url: endpoint,
         summaryLength: summary.length,
         experienceLength: experience_desc.length,
         years_experience,
@@ -62,7 +73,7 @@ export const runPrediction = async (data) => {
     let response;
 
     try {
-        response = await fetch(`${FASTAPI_URL}/predict`, {
+        response = await fetch(endpoint, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -82,7 +93,7 @@ export const runPrediction = async (data) => {
 
         throw createError(
             "FASTAPI_UNREACHABLE",
-            `Tidak dapat menghubungi model AI server di ${FASTAPI_URL}`,
+            `Tidak dapat menghubungi model AI server di ${ensureFastApiUrl()}`,
             err.message,
             503
         );
@@ -138,7 +149,8 @@ export const runPrediction = async (data) => {
  */
 export const checkModelHealth = async () => {
     try {
-        const response = await fetch(`${FASTAPI_URL}/health`, {
+        const endpoint = `${ensureFastApiUrl()}/health`;
+        const response = await fetch(endpoint, {
             method: "GET",
             signal: AbortSignal.timeout(5000),
         });
@@ -147,20 +159,20 @@ export const checkModelHealth = async () => {
             const data = await response.json();
             return {
                 status: "connected",
-                model_server: FASTAPI_URL,
+                model_server: endpoint,
                 model_loaded: data.model_loaded || false,
             };
         }
 
         return {
             status: "disconnected",
-            model_server: FASTAPI_URL,
+            model_server: endpoint,
             model_response: false,
         };
     } catch (error) {
         return {
             status: "disconnected",
-            model_server: FASTAPI_URL,
+            model_server: process.env.FASTAPI_URL || "unknown",
             error: error.message,
         };
     }

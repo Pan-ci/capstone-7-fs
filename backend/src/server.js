@@ -26,6 +26,7 @@ if (isProd) {
     const missing = [];
     if (!process.env.DATABASE_URL) missing.push("DATABASE_URL");
     if (!process.env.JWT_SECRET) missing.push("JWT_SECRET");
+    if (!process.env.FASTAPI_URL) missing.push("FASTAPI_URL");
 
     if (missing.length > 0) {
         logger.error(null, `Missing required env vars in production: ${missing.join(", ")}`);
