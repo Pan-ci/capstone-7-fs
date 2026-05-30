@@ -52,25 +52,11 @@ def debug_log(request: Request, message):
         )
 
 
-frontend_urls = os.getenv("BACKEND_URL", "*")
-
-if frontend_urls == "*":
-    origins = ["*"]
-    allow_credentials = False
-else:
-    origins = [
-        url.strip()
-        for url in frontend_urls.split(",")
-        if url.strip()
-    ]
-    allow_credentials = True
-
-logger.info(f"CORS origins: {origins}")
-
+# Allow CORS for local testing
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=allow_credentials,
+    allow_origins=["*"],
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
