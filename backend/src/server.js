@@ -16,6 +16,8 @@ const app = express();
 const FRONTEND_URL = process.env.FRONTEND_URL;
 const isProd = process.env.NODE_ENV === "production";
 const isDebug = process.env.DEBUG === "true" || (!isProd && process.env.DEBUG !== "false");
+// Accept legacy/mistyped env name as a fallback: FAST_API_URL
+const FASTAPI_URL_RESOLVED = process.env.FASTAPI_URL || process.env.FAST_API_URL || null;
 
 if (isProd && !FRONTEND_URL) {
     logger.error(null, "FRONTEND_URL must be set in production. Exiting.");
@@ -27,7 +29,7 @@ if (isProd) {
     const missing = [];
     if (!process.env.DATABASE_URL) missing.push("DATABASE_URL");
     if (!process.env.JWT_SECRET) missing.push("JWT_SECRET");
-    if (!process.env.FASTAPI_URL) missing.push("FASTAPI_URL");
+    if (!FASTAPI_URL_RESOLVED) missing.push("FASTAPI_URL");
 
     if (missing.length > 0) {
         logger.error(null, `Missing required env vars in production: ${missing.join(", ")}`);
@@ -39,10 +41,32 @@ if (isProd) {
     logger.info("Server", null, "Env status:",
         `DATABASE_URL=${process.env.DATABASE_URL ? 'set' : 'unset'}`,
         `DB_SSL=${process.env.DB_SSL || 'false'}`,
-        `FASTAPI_URL=${process.env.FASTAPI_URL ? 'set' : 'unset'}`,
+        `FASTAPI_URL_resolved=${FASTAPI_URL_RESOLVED ? 'set' : 'unset'}`,
+        `FASTAPI_URL_env=${process.env.FASTAPI_URL ? 'set' : 'unset'}`,
+        `FAST_API_URL_env=${process.env.FAST_API_URL ? 'set' : 'unset'}`,
         `JWT_SECRET=${process.env.JWT_SECRET ? 'set' : 'unset'}`,
         `DEBUG=${isDebug ? 'enabled' : 'disabled'}`
     );
+
+// Non-blocking startup check for FastAPI health endpoint to help detect misconfiguration
+if (FASTAPI_URL_RESOLVED) {
+    (async () => {
+        try {
+            const url = `${FASTAPI_URL_RESOLVED.replace(/\/$/, '')}/health`;
+            const resp = await fetch(url, { method: 'GET' });
+            if (resp.ok) {
+                const data = await resp.json();
+                logger.info(null, `FastAPI health check ok: ${url} -> ${JSON.stringify(data)}`);
+            } else {
+                logger.error(null, `FastAPI health check returned ${resp.status} at ${url}. This often means FASTAPI_URL is incorrect or points to the backend instead of the model server.`);
+            }
+        } catch (err) {
+            logger.error(null, `FastAPI health check failed for ${FASTAPI_URL_RESOLVED}: ${err.message}`);
+        }
+    })();
+} else {
+    logger.warn(null, "FASTAPI_URL not configured (no FASTAPI_URL or FAST_API_URL provided). In production this will fail.");
+}
 
 app.use(cors({
     origin: isProd ? FRONTEND_URL : true,
