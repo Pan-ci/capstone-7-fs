@@ -15,6 +15,7 @@ const app = express();
 
 const FRONTEND_URL = process.env.FRONTEND_URL;
 const isProd = process.env.NODE_ENV === "production";
+const isDebug = process.env.DEBUG === "true" || (!isProd && process.env.DEBUG !== "false");
 
 if (isProd && !FRONTEND_URL) {
     logger.error(null, "FRONTEND_URL must be set in production. Exiting.");
@@ -39,7 +40,8 @@ if (isProd) {
         `DATABASE_URL=${process.env.DATABASE_URL ? 'set' : 'unset'}`,
         `DB_SSL=${process.env.DB_SSL || 'false'}`,
         `FASTAPI_URL=${process.env.FASTAPI_URL ? 'set' : 'unset'}`,
-        `JWT_SECRET=${process.env.JWT_SECRET ? 'set' : 'unset'}`
+        `JWT_SECRET=${process.env.JWT_SECRET ? 'set' : 'unset'}`,
+        `DEBUG=${isDebug ? 'enabled' : 'disabled'}`
     );
 
 app.use(cors({

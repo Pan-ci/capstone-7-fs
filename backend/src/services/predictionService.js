@@ -36,6 +36,8 @@ const log = (level, message, meta = {}) => {
 
     if (level === "ERROR") {
         logger.error(scope, message, Object.keys(meta).length ? meta : undefined);
+    } else if (level === "DEBUG") {
+        logger.debug(scope, message, Object.keys(meta).length ? meta : undefined);
     } else {
         logger.info(scope, message, Object.keys(meta).length ? meta : undefined);
     }
@@ -62,6 +64,15 @@ export const runPrediction = async (data) => {
 
     const requestId = getRequestId();
     const endpoint = `${ensureFastApiUrl()}/predict`;
+
+    log("DEBUG", "FastAPI prediction request details", {
+        url: endpoint,
+        payload: {
+            summaryLength: summary.length,
+            experienceLength: experience_desc.length,
+            years_experience,
+        },
+    });
 
     log("INFO", "Sending prediction request", {
         url: endpoint,
@@ -116,6 +127,11 @@ export const runPrediction = async (data) => {
     }
 
     if (!response.ok) {
+        log("DEBUG", "FastAPI returned non-ok response", {
+            status: response.status,
+            body: raw,
+        });
+
         log("ERROR", "FastAPI returned error", {
             status: response.status,
             body: raw,
